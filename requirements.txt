@@ -1,3 +1,2 @@
-os
 discord
 commands
