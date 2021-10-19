@@ -53,8 +53,8 @@ async def getMLBMarkets(ctx):
                 timestamp=ctx.message.created_at,
                 color=discord.Color.dark_teal()
             )
-            datetime = parser.parse(game['commence_time']).strftime("%m/%d/%Y, %H:%M:%S")
-            embed.add_field(name="Start Time", value=datetime, inline=False)
+            #datetime = parser.parse(game['commence_time']).strftime("%m/%d/%Y, %H:%M:%S")
+            embed.add_field(name="Start Time", value=game['commence_time'], inline=False)
             embed.add_field(name="Home", value=game['home_team'], inline=False)
             embed.add_field(name="Away", value=game['away_team'], inline=False)
             embed.add_field(name="Odds", value=f"**----------------**", inline=False)
