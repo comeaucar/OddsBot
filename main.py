@@ -11,7 +11,7 @@ api_key = os.environ['api_key']
 
 # Discord Config
 client = commands.Bot(command_prefix='?', case_insensitive=True)
-discord_token = ""
+discord_token = os.environ['token']
 channel_id = 900048955331706901
 channel = client.get_channel(channel_id)
 
