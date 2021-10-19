@@ -3,7 +3,7 @@ import os
 import discord
 from discord.ext import commands, tasks
 import requests
-#from dateutil import parser
+import asyncio
 
 # API Key Declaration
 api_key = os.environ['api_key']
@@ -40,11 +40,11 @@ seriea_key = "soccer_italy_serie_a"
 
 # Retrieve Methods
 
-@client.command()
+@tasks.loop(hours=24)
 async def getMLBMarkets(ctx):
     url = base_url + mlb_key + "/odds/?regions=us&apiKey=" + api_key
     request = requests.get(url).json()
-    channel = client.get_channel(channel_id)
+    channel = client.get_channel(900169037403816027)
     try:
         for game in request:
             embed = discord.Embed(
@@ -52,7 +52,6 @@ async def getMLBMarkets(ctx):
                 timestamp=ctx.message.created_at,
                 color=discord.Color.dark_teal()
             )
-            #datetime = parser.parse(game['commence_time']).strftime("%m/%d/%Y, %H:%M:%S")
             embed.add_field(name="Start Time", value=game['commence_time'], inline=False)
             embed.add_field(name="Home", value=game['home_team'], inline=False)
             embed.add_field(name="Away", value=game['away_team'], inline=False)
@@ -77,11 +76,11 @@ async def getMLBMarkets(ctx):
         print("Baseball Exception")
 
 
-@client.command()
+@tasks.loop(hours=24)
 async def getNFLMarkets(ctx):
     url = base_url + nfl_key + "/odds/?regions=us&apiKey=" + api_key
     request = requests.get(url).json()
-    channel = client.get_channel(channel_id)
+    channel = client.get_channel(900169287325593601)
     try:
         for game in request:
             embed = discord.Embed(
@@ -113,11 +112,11 @@ async def getNFLMarkets(ctx):
         print("NFL Exception")
 
 
-@client.command()
+@tasks.loop(hours=24)
 async def getNHLMarkets(ctx):
     url = base_url + nhl_key + "/odds/?regions=us&apiKey=" + api_key
     request = requests.get(url).json()
-    channel = client.get_channel(channel_id)
+    channel = client.get_channel(900169315981070356)
     try:
         for game in request:
             embed = discord.Embed(
@@ -149,7 +148,7 @@ async def getNHLMarkets(ctx):
         print("NHL Exception")
 
 
-@client.command()
+@tasks.loop(hours=24)
 async def getNBAMarkets(ctx):
     url = base_url + nba_key + "/odds/?regions=us&apiKey=" + api_key
     request = requests.get(url).json()
@@ -185,7 +184,7 @@ async def getNBAMarkets(ctx):
         print("NHL Exception")
 
 
-@client.command()
+@tasks.loop(hours=24)
 async def getMMAMarkets(ctx):
     url = base_url + mma_key + "/odds/?regions=us&apiKey=" + api_key
     request = requests.get(url).json()
@@ -221,7 +220,7 @@ async def getMMAMarkets(ctx):
         print("NHL Exception")
 
 
-@client.command()
+@tasks.loop(hours=24)
 async def getEPLMarkets(ctx):
     url = base_url + epl_key + "/odds/?regions=us&apiKey=" + api_key
     request = requests.get(url).json()
@@ -257,8 +256,8 @@ async def getEPLMarkets(ctx):
         print("NHL Exception")
 
 
-# @client.command()
-async def getSERIEAMarkets():
+@tasks.loop(hours=24)
+async def getSERIEAMarkets(ctx):
     url = base_url + seriea_key + "/odds/?regions=us&apiKey=" + api_key
     request = requests.get(url).json()
     channel = client.get_channel(channel_id)
@@ -266,7 +265,7 @@ async def getSERIEAMarkets():
         for game in request:
             embed = discord.Embed(
                 title="SERIE-A EVENT",
-                # timestamp=ctx.message.created_at,
+                timestamp=ctx.message.created_at,
                 color=discord.Color.green()
             )
             embed.add_field(name="Start Time", value=game['commence_time'], inline=False)
@@ -295,7 +294,7 @@ async def getSERIEAMarkets():
 
 @client.event
 async def on_reaction_add(reaction, user):
-    channel = client.get_channel(900107965963567194)
+    channel = client.get_channel(900171245402861588)
     if (user.name != "OddsBot"):
         await channel.send(
             '{} has added {} to the message {}'.format(user.name, reaction.emoji, reaction.message.embeds[0].title))
@@ -307,12 +306,23 @@ async def on_reaction_add(reaction, user):
                                                                          reaction.message.embeds[0].fields[1].value))
 
 
-@tasks.loop(seconds=15)
-async def task():
-    await getSERIEAMarkets()
+@getMLBMarkets.before_loop
+async def before_mlb_loop():
+    await asyncio.sleep(50400)
+    await client.wait_until_ready()
+    print("Client Ready")
 
+@getNFLMarkets.before_loop
+async def before_mlb_loop():
+    await asyncio.sleep(50400)
+    await client.wait_until_ready()
+    print("Client Ready")
 
-# task.start()
+@getNHLMarkets.before_loop
+async def before_mlb_loop():
+    await asyncio.sleep(50400)
+    await client.wait_until_ready()
+    print("Client Ready")
 
 
 client.run(os.environ['token'])
