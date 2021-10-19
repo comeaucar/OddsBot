@@ -1,1 +1,1 @@
-worker: python OddsBot
+worker: python OddsBot.py
