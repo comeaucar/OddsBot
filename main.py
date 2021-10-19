@@ -1,10 +1,9 @@
 # Imports
 import os
-
 import discord
 from discord.ext import commands, tasks
 import requests
-from dateutil import parser
+#from dateutil import parser
 
 # API Key Declaration
 api_key = os.environ['api_key']
