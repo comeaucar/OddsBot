@@ -308,19 +308,19 @@ async def on_reaction_add(reaction, user):
 
 @getMLBMarkets.before_loop
 async def before_mlb_loop():
-    await asyncio.sleep(50400)
+    await asyncio.sleep(1)
     await client.wait_until_ready()
     print("Client Ready")
 
 @getNFLMarkets.before_loop
 async def before_mlb_loop():
-    await asyncio.sleep(50400)
+    await asyncio.sleep(1)
     await client.wait_until_ready()
     print("Client Ready")
 
 @getNHLMarkets.before_loop
 async def before_mlb_loop():
-    await asyncio.sleep(50400)
+    await asyncio.sleep(1)
     await client.wait_until_ready()
     print("Client Ready")
 getMLBMarkets.start()
