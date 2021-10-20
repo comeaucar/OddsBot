@@ -323,6 +323,7 @@ async def before_mlb_loop():
     await asyncio.sleep(50400)
     await client.wait_until_ready()
     print("Client Ready")
-
-
+getMLBMarkets.start()
+getNFLMarkets.start()
+getNHLMarkets.start()
 client.run(os.environ['token'])
