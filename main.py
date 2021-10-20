@@ -41,7 +41,7 @@ seriea_key = "soccer_italy_serie_a"
 # Retrieve Methods
 
 @tasks.loop(hours=24)
-async def getMLBMarkets(ctx):
+async def getMLBMarkets():
     url = base_url + mlb_key + "/odds/?regions=us&apiKey=" + api_key
     request = requests.get(url).json()
     channel = client.get_channel(900169037403816027)
@@ -49,7 +49,6 @@ async def getMLBMarkets(ctx):
         for game in request:
             embed = discord.Embed(
                 title="MLB EVENT",
-                timestamp=ctx.message.created_at,
                 color=discord.Color.dark_teal()
             )
             embed.add_field(name="Start Time", value=game['commence_time'], inline=False)
@@ -77,7 +76,7 @@ async def getMLBMarkets(ctx):
 
 
 @tasks.loop(hours=24)
-async def getNFLMarkets(ctx):
+async def getNFLMarkets():
     url = base_url + nfl_key + "/odds/?regions=us&apiKey=" + api_key
     request = requests.get(url).json()
     channel = client.get_channel(900169287325593601)
@@ -85,7 +84,6 @@ async def getNFLMarkets(ctx):
         for game in request:
             embed = discord.Embed(
                 title="NFL EVENT",
-                timestamp=ctx.message.created_at,
                 color=discord.Color.red()
             )
             embed.add_field(name="Start Time", value=game['commence_time'], inline=False)
@@ -113,7 +111,7 @@ async def getNFLMarkets(ctx):
 
 
 @tasks.loop(hours=24)
-async def getNHLMarkets(ctx):
+async def getNHLMarkets():
     url = base_url + nhl_key + "/odds/?regions=us&apiKey=" + api_key
     request = requests.get(url).json()
     channel = client.get_channel(900169315981070356)
@@ -121,7 +119,6 @@ async def getNHLMarkets(ctx):
         for game in request:
             embed = discord.Embed(
                 title="NHL EVENT",
-                timestamp=ctx.message.created_at,
                 color=discord.Color.blue()
             )
             embed.add_field(name="Start Time", value=game['commence_time'], inline=False)
